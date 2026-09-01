@@ -1,0 +1,29 @@
+'''Question:
+Triangle ABC has side lengths in arithmetic progression, and the smallest side 
+has length 6. If the triangle has an angle of 120°, what is the area of ABC?
+'''
+"""
+Folder: geometry
+Problem: Triangle with sides 6, 6+d, 6+2d and a 120 degree angle.
+"""
+
+# 1. Computer loops to find the value of d
+d = 1
+while True:
+    left_side = (6 + 2 * d) ** 2
+    right_side = 6**2 + (6 + d) ** 2 + 6 * (6 + d)
+    
+    if left_side == right_side:
+        break
+    d += 1
+
+# 2. Calculate sides
+a = 6
+b = 6 + d
+c = 6 + 2 * d
+
+# 3. Calculate area using Heron's Formula
+s = (a + b + c) / 2
+area = (s * (s - a) * (s - b) * (s - c)) ** 0.5
+
+print(area)
