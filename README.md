@@ -34,5 +34,5 @@ Every line of logic written here is designed to open the doors of elite competit
 I do not delete my mistakes. If a script breaks or a formula fails, I will leave the broken version commented out with a note explaining exactly what I did wrong and how I fixed it. I believe that being a great mathematician and programmer is not about perfection -- it's about having the grit to debug the issues in your code it until it works.
 
 ### Development Stack & Tooling
-* **Core Runtime**: Pure Python 3.10+ (explicitly avoiding high-level abstractions to keep underlying discrete logic completely transparent).
+* **Core Runtime**: Pure Python 3.10+ 
 * **Symbolic Syntax**: Documented mathematical models rendered natively via $\LaTeX$.
