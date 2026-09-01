@@ -7,7 +7,8 @@ I’m teaching myself to code from scratch alongside my contest math preparation
 ---
 
 ## THE TEXTBOOK CORE 
-This notebook serves as the operational validation engine for my open-source textbook: **"The First-Principles Olympiad Mathematics Framework"** (Archived & Documented via Zenodo DOI: 10.5281/zenodo.21912384). 
+This notebook serves as the operational validation engine for my open-source textbook: 
+Hamadani, J. (2026). Olympiad Mathematics Frameworks. Zenodo. https://doi.org/10.5281/zenodo.21912384
 
 Every line of logic written here is designed to open the doors of elite competition math to every aspiring mind, translating abstract puzzles into clear execution scripts.
 
