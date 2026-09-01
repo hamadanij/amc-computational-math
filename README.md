@@ -9,23 +9,23 @@ I’m teaching myself to code from scratch alongside my contest math preparation
 ## THE TEXTBOOK CORE 
 This notebook serves as the operational validation engine for my open-source textbook: **"The First-Principles Olympiad Mathematics Framework"** (Archived & Documented via Zenodo DOI: 10.5281/zenodo.21912384). 
 
-Every line of logic written here is designed to democratize elite competition math by translating abstract proofs into execution scripts.
+Every line of logic written here is designed to open the doors of elite competition math to every aspiring mind, translating abstract puzzles into clear execution scripts.
 
 ---
 
 ## The Four Main Subtopics & Technical Architecture
 
 ### `/algebra` — Breaking down complex sequences, matrices, and functions into step-by-step math code.
-* **Mathematical Rigor**: Algorithmic evaluation of deep recurrence relations, multi-dimensional matrix transformations ($A\mathbf{x} = \mathbf{b}$), and functional equation constraint mapping.
+* **Mathematical Rigor**: Arithmetic, finding patterns, recurrence relations, roots of unity, polynomial factorization via Vieta’s formulas, and bounding constraints for functional equations.
 
 ### `/combinatorics` — Writing simple logic loops to cross-check combinations, factorials, and probability rules.
 * **Mathematical Rigor**: Discrete partition mechanisms via stars-and-bars distribution structures, conditional probability state simulations, and expected-value calculations for stochastic loops.
 
 ### `/geometry` — Translating coordinate systems, areas, and trigonometry into easy-to-read formulas.
-* **Mathematical Rigor**: Analytical coordinate space mapping, vector cross-products for spatial transformations, and trigonometric identity verifications using complex number projections.
+* **Mathematical Rigor**: Analytical 3D coordinate space mapping, vector cross-products for spatial transformations, and trigonometric identity verifications using complex number projections.
 
 ### `/number_theory` — Testing prime numbers, remainders, and modular math with clean logic.
-* **Mathematical Rigor**: Multi-congruence matrix system solvers implementing the Chinese Remainder Theorem, cycle-length tracking for primitive roots modulo $p$, and deterministic primality checking.
+* **Mathematical Rigor**: Systems of simultaneous congruences solved via the Chinese Remainder Theorem, cycle tracking for primitive roots, and deterministic primality testing.
 
 ---
 
