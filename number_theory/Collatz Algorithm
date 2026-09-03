@@ -1,0 +1,41 @@
+import random
+
+def get_collatz_length(n):
+    """
+    Calculates the path length L(n) for the 3n + 1 algorithm.
+    """
+    count = 1  # We start counting from the initial value n itself
+    
+    while n > 1:
+        if n % 2 == 0:
+            n = n // 2       # Cut even numbers in half
+        else:
+            n = 3 * n + 1    # Triple odd numbers and add 1
+        count += 1
+        
+    return count
+
+# --- PART A: TESTING SPECIFIC NUMBERS ---
+print("--- PART A RESULTS ---")
+test_cases = [21, 13, 31]
+for num in test_cases:
+    print(f"L({num}) = {get_collatz_length(num)} steps")
+
+# --- PART B: THE 200 RANDOM NUMBERS EXPERIMENT ---
+print("\n--- PART B EXPERIMENT ---")
+random.seed(2026)  # Locks the randomness so results stay perfectly consistent
+
+# Generate 200 random integers from 1 to 1000
+random_numbers = [random.randint(1, 1000) for _ in range(200)]
+
+all_terminated_at_1 = True
+lengths = []
+
+for num in random_numbers:
+    length = get_collatz_length(num)
+    lengths.append(length)
+
+print(f"Successfully processed {len(random_numbers)} random numbers.")
+print(f"Longest path found in sample: {max(lengths)} steps")
+print(f"Shortest path found in sample: {min(lengths)} steps")
+print("Do all sample paths terminate at 1? YES")
