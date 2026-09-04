@@ -1,0 +1,69 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+# 1. Define a Quadrilateral (Vertices in counter-clockwise order)
+# Feel free to change these coordinates to try different shapes!
+x = [1, 4, 5, 2]
+y = [2, 1, 4, 5]
+
+# Repeat the first vertex at the end to close the polygon
+x_closed = x + [x[0]]
+y_closed = y + [y[0]]
+n = len(x)
+
+# 2. Setup the Plot
+fig, ax = plt.subplots(figsize=(7, 7))
+ax.set_xlim(-1, 7)
+ax.set_ylim(-1, 7)
+ax.axhline(0, color='black', linewidth=0.8)
+ax.axvline(0, color='black', linewidth=0.8)
+ax.grid(True, linestyle='--', alpha=0.5)
+
+# Elements to animate
+quad_line, = ax.plot([], [], 'k-', linewidth=2, label="Quadrilateral Border")
+triangle_fill = ax.fill([], [], alpha=0.4)[0]
+origin_lines, = ax.plot([], [], 'k--', linewidth=1)
+text_box = ax.text(0.5, 6.2, '', fontsize=11, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round'))
+
+# Plot the static vertices and origin
+ax.plot(0, 0, 'ko', markersize=6)
+ax.text(-0.4, -0.4, 'O(0,0)', fontweight='bold')
+for i in range(n):
+    ax.plot(x[i], y[i], 'ro')
+    ax.text(x[i]+0.1, y[i]+0.1, f'P{i+1}({x[i]},{y[i]})', fontweight='bold')
+
+# 3. Animation Logic
+def update(frame):
+    # Determine the vertices for the current triangle step
+    x1, y1 = x_closed[frame], y_closed[frame]
+    x2, y2 = x_closed[frame+1], y_closed[frame+1]
+    
+    # Calculate the cross product term
+    term = (x1 * y2) - (x2 * y1)
+    tri_area = 0.5 * term
+    
+    # Update lines and fills
+    quad_line.set_data(x_closed[:frame+2], y_closed[:frame+2])
+    origin_lines.set_data([0, x1, 0, x2], [0, y1, 0, y2])
+    
+    # Color code: Positive area is Green, Negative area is Red
+    color = 'green' if tri_area >= 0 else 'red'
+    triangle_fill.set_xy([[0,0], [x1,y1], [x2,y2]])
+    triangle_fill.set_color(color)
+    triangle_fill.set_alpha(0.4)
+    
+    # Update status text
+    sign_str = "Positive" if tri_area >= 0 else "Negative"
+    text_box.set_text(
+        f"Step {frame+1}: Triangle O -> P{frame+1} -> P{(frame+2) if frame < n-1 else 1}\n"
+        f"Formula term: ({x1}×{y2}) - ({y1}×{x2}) = {term}\n"
+        f"Triangle Area = 1/2 × {term} = {tri_area:.1f} ({sign_str})"
+    )
+    return quad_line, triangle_fill, origin_lines, text_box
+
+# Create the HTML animation player inside Colab
+anim = FuncAnimation(fig, update, frames=n, interval=2500, blit=True)
+plt.close()
+HTML(anim.to_jshtml())
