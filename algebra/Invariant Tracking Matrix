@@ -1,0 +1,121 @@
+def universal_algebraic_matrix_solver():
+    print("=== UNIVERSAL ALGEBRAIC MATRIX SOLVER ===")
+    
+    # 1. Ask for the invariant context
+    invariant = input("What is the UNCHANGING invariant component? (e.g., water, bananas, sharks_wins) [Leave blank if none]: ").strip()
+    if invariant:
+        print(f"-> Tracking framework locked onto: {invariant.upper()}\n")
+    else:
+        print("-> Standard tracking framework locked onto the specific component.\n")
+        
+    print("Instructions: Enter numbers when known. Press Enter to leave a cell UNKNOWN.")
+    print("-" * 65)
+
+    # Dictionary to store user inputs or generated algebraic variable names
+    m = {
+        "B_R": None, "B_T": None, "B_A": None,
+        "C_R": None, "C_T": None, "C_A": None,
+        "A_R": None, "A_T": None, "A_A": None
+    }
+
+    labels = {
+        "B_R": "Before Row - Rate (Decimal)", "B_T": "Before Row - Total Size", "B_A": "Before Row - Amount",
+        "C_R": "Change Row - Rate (Decimal)", "C_T": "Change Row - Total Size", "C_A": "Change Row - Amount",
+        "A_R": "After Row  - Rate (Decimal)", "A_T": "After Row  - Total Size", "A_A": "After Row  - Amount"
+    }
+
+    # Friendly variable map for the visual layout
+    var_names = {
+        "B_R": "r1", "B_T": "T1", "B_A": "A1",
+        "C_R": "rc", "C_T": "Tc", "C_A": "Ac",
+        "A_R": "r2", "A_T": "T2", "A_A": "A2"
+    }
+
+    # Track which cells are numbers vs variables
+    is_variable = {}
+
+    for key in m:
+        val = input(f"{labels[key]}: ").strip()
+        if val != "":
+            m[key] = float(val)
+            is_variable[key] = False
+        else:
+            m[key] = var_names[key]
+            is_variable[key] = True
+
+    # If an invariant is defined and change rate or change amount is blank, water/invariant change is 0
+    if invariant:
+        # For an invariant like water in a juice problem, if no water is added/removed:
+        if m["C_R"] == "rc" or m["C_R"] == 0:
+            m["C_R"] = 0.0
+            is_variable["C_R"] = False
+            m["C_A"] = 0.0
+            is_variable["C_A"] = False
+
+    # Visual Algebraic Table Printout
+    def f(key):
+        val = m[key]
+        if is_variable[key]:
+            return f"[{val}]"
+        return f"{val:,.2f}"
+
+    print("\n" + "="*57)
+    if invariant:
+        print(f" TRACKING COMPONENT: {invariant.upper()}")
+        print("-" * 57)
+    print(f"{'STAGE':<10} | {'RATE':<11} x {'TOTAL':<11} = {'AMOUNT':<11}")
+    print("-" * 57)
+    print(f"{'Before':<10} | {f('B_R'):<11} x {f('B_T'):<11} = {f('B_A'):<11}")
+    print(f"{'Change':<10} | {f('C_R'):<11} x {f('C_T'):<11} = {f('C_A'):<11}")
+    print("-" * 57)
+    print(f"{'After':<10} | {f('A_R'):<11} x {f('A_T'):<11} = {f('A_A'):<11}")
+    print("="*57)
+
+    print("\nStructural System Equations Formed:")
+    print(f" 1. Horizontal Before:  {f('B_R')} * {f('B_T')} = {f('B_A')}")
+    print(f" 2. Horizontal Change:  {f('C_R')} * {f('C_T')} = {f('C_A')}")
+    print(f" 3. Horizontal After:   {f('A_R')} * {f('A_T')} = {f('A_A')}")
+    print(f" 4. Vertical Totals:    {f('B_T')} + {f('C_T')} = {f('A_T')}")
+    print(f" 5. Vertical Amounts:   {f('B_A')} + {f('C_A')} = {f('A_A')}")
+
+    # Solve engine using elimination rules
+    updated = True
+    while updated:
+        updated = False
+        
+        # Horizontal passes
+        for row in ['B', 'C', 'A']:
+            R, T, A = f"{row}_R", f"{row}_T", f"{row}_A"
+            if not is_variable[R] and not is_variable[T] and is_variable[A]:
+                m[A] = m[R] * m[T]; is_variable[A] = False; updated = True
+            if not is_variable[R] and not is_variable[A] and is_variable[T] and m[R] != 0:
+                m[T] = m[A] / m[R]; is_variable[T] = False; updated = True
+            if not is_variable[T] and not is_variable[A] and is_variable[R] and m[T] != 0:
+                m[R] = m[A] / m[T]; is_variable[R] = False; updated = True
+
+        # Vertical passes for Totals
+        if not is_variable["B_T"] and not is_variable["C_T"] and is_variable["A_T"]:
+            m["A_T"] = m["B_T"] + m["C_T"]; is_variable["A_T"] = False; updated = True
+        if not is_variable["B_T"] and not is_variable["A_T"] and is_variable["C_T"]:
+            m["C_T"] = m["A_T"] - m["B_T"]; is_variable["C_T"] = False; updated = True
+        if not is_variable["C_T"] and not is_variable["A_T"] and is_variable["B_T"]:
+            m["B_T"] = m["A_T"] - m["C_T"]; is_variable["B_T"] = False; updated = True
+
+        # Vertical passes for Amounts
+        if not is_variable["B_A"] and not is_variable["C_A"] and is_variable["A_A"]:
+            m["A_A"] = m["B_A"] + m["C_A"]; is_variable["A_A"] = False; updated = True
+        if not is_variable["B_A"] and not is_variable["A_A"] and is_variable["C_A"]:
+            m["C_A"] = m["A_A"] - m["B_A"]; is_variable["C_A"] = False; updated = True
+        if not is_variable["C_A"] and not is_variable["A_A"] and is_variable["B_A"]:
+            m["B_A"] = m["A_A"] - m["C_A"]; is_variable["B_A"] = False; updated = True
+
+    # Check if any values were solved
+    any_solved = any(not is_variable[k] for k in var_names if var_names[k] in str(m[k]))
+    if any_solved:
+        print("\n" + "="*25 + " SOLVED VALUES " + "="*25)
+        for key in m:
+            if not is_variable[key]:
+                print(f" -> {labels[key]:<45} = {m[key]:,.2f}")
+
+if __name__ == "__main__":
+    universal_algebraic_matrix_solver()
